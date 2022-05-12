@@ -14,19 +14,29 @@ let requiredRange2 = [100, 350];
 let requiredRange3 = [200, null];
 
 export const filterFunction = (courses, requiredRange) => {
-  if (!requiredRange || (!requiredRange[0] && !requiredRange[1])) {
+  if (
+    !requiredRange ||
+    !courses ||
+    !courses.length ||
+    (!requiredRange[0] && !requiredRange[1])
+  ) {
     return courses;
   } else {
     let requiredRangeFrom = requiredRange[0] || 0;
     let requiredRangeTo = requiredRange[1];
     return courses.filter((item) => {
-      return (
-        item.prices[1] != 0 &&
-        (!requiredRangeTo || (item.prices[0] || 0) <= requiredRangeTo) &&
-        (!requiredRangeFrom ||
-          !item.prices[1] ||
-          item.prices[1] >= requiredRangeFrom)
-      );
+      let itemPriceStart = item.prices[0] || 0;
+      if (!requiredRangeTo) {
+        return !item.prices[1] || item.prices[1] >= requiredRangeFrom;
+      } else {
+        if (!item.prices[1]) return itemPriceStart <= requiredRangeTo;
+        else {
+          return (
+            item.prices[1] >= requiredRangeFrom &&
+            itemPriceStart <= requiredRangeTo
+          );
+        }
+      }
     });
   }
 };
