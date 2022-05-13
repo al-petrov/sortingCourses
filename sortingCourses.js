@@ -40,3 +40,44 @@ export const filterFunction = (courses, requiredRange) => {
     });
   }
 };
+
+let sortingCourses = (courses, direction, price) => {
+    if (direction === 1) {
+        courses.sort((a, b) => {
+            if (price === 0) {
+                if ((a.prices[price] || 0) > (b.prices[price] || 0)) {
+                    return 1
+                } else {
+                    return -1
+                }
+            } else {
+                if (((a.prices[price] > b.prices[price]) && (b.prices[price] != null)) || ((a.prices[price] === null) && (b.prices[price] != null))) {
+                    console.log(1)
+                    return 1
+                } else {
+                    console.log(-1)
+                    return -1
+                }
+            }
+        })
+    } else {
+        courses.sort((a, b) => {
+           if (price === 0) {
+                if ((a.prices[price] || 0) < (b.prices[price] || 0)) {
+                    return 1
+                } else {
+                    return -1
+                }
+            } else {
+                if (((a.prices[price] < b.prices[price]) && (a.prices[price] != null)) || ((b.prices[price] === null) && (a.prices[price] != null))) {
+                    console.log(1)
+                    return 1
+                } else {
+                    console.log(-1)
+                    return -1
+                }
+            }
+        })
+    }
+    return courses;
+}
